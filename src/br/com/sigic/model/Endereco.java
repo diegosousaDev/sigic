@@ -11,9 +11,9 @@ package br.com.sigic.model;
  */
 class Endereco {
     
-    private int id;
+    private Integer id;
     private String rua;
-    private int numero;
+    private Integer numero;
     private String complemento;
     private String bairro;
     private String cidade;
@@ -23,7 +23,7 @@ class Endereco {
     public Endereco() {
     }
 
-    public Endereco(int id, String rua, int numero, String complemento, String bairro, String cidade, String estado, String cep) {
+    public Endereco(Integer id, String rua, Integer numero, String complemento, String bairro, String cidade, String estado, String cep) {
         this.id = id;
         this.rua = rua;
         this.numero = numero;
@@ -37,14 +37,14 @@ class Endereco {
     /**
      * @return the id
      */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -65,14 +65,14 @@ class Endereco {
     /**
      * @return the numero
      */
-    public int getNumero() {
+    public Integer getNumero() {
         return numero;
     }
 
     /**
      * @param numero the numero to set
      */
-    public void setNumero(int numero) {
+    public void setNumero(Integer numero) {
         this.numero = numero;
     }
 
@@ -144,5 +144,5 @@ class Endereco {
      */
     public void setCep(String cep) {
         this.cep = cep;
-    }    
+    }
 }

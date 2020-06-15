@@ -11,14 +11,14 @@ package br.com.sigic.model;
  */
 public class Mesa {
     
-    private int numero;
-    private int pessoas;
+    private Integer numero;
+    private Integer pessoas;
     private String status;
 
     public Mesa() {
     }
 
-    public Mesa(int numero, int pessoas, String status) {
+    public Mesa(Integer numero, Integer pessoas, String status) {
         this.numero = numero;
         this.pessoas = pessoas;
         this.status = status;
@@ -34,7 +34,7 @@ public class Mesa {
     /**
      * @param numero the numero to set
      */
-    public void setNumero(int numero) {
+    public void setNumero(Integer numero) {
         this.numero = numero;
     }
 
@@ -48,7 +48,7 @@ public class Mesa {
     /**
      * @param pessoas the pessoas to set
      */
-    public void setPessoas(int pessoas) {
+    public void setPessoas(Integer pessoas) {
         this.pessoas = pessoas;
     }
 

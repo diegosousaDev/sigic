@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class Pedido {
     
-    private int id;
+    private Integer id;
     private Date data;
     private StatusPedido statusPedido;
     private Cliente cliente;
@@ -28,7 +28,7 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(int id, Date data, StatusPedido statusPedido, Cliente cliente, Funcionario funcionario, Mesa mesa) {
+    public Pedido(Integer id, Date data, StatusPedido statusPedido, Cliente cliente, Funcionario funcionario, Mesa mesa) {
         this.id = id;
         this.data = data;
         this.statusPedido = statusPedido;
@@ -47,7 +47,7 @@ public class Pedido {
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

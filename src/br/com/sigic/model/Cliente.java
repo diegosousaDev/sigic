@@ -13,16 +13,32 @@ import java.util.Date;
  */
 public class Cliente extends Pessoa{
     
+    private String nivel;
     private String apelido;
-    private String status;
+    private String observacoes;
 
     public Cliente() {
     }   
 
-    public Cliente(String apelido, String status, int id, String nome, String email, String cpf, Date nascimento, Telefone telefone, Endereco endereco) {
-        super(id, nome, email, cpf, nascimento, telefone, endereco);
+    public Cliente(String nivel, String apelido, String observacoes, int id, String nome, String email, String cpf, Date nascimento, Status status, Categoria categoria, Telefone telefone, Endereco endereco) {
+        super(id, nome, email, cpf, nascimento, status, categoria, telefone, endereco);
+        this.nivel = nivel;
         this.apelido = apelido;
-        this.status = status;
+        this.observacoes = observacoes;
+    }
+
+    /**
+     * @return the nivel
+     */
+    public String getNivel() {
+        return nivel;
+    }
+
+    /**
+     * @param nivel the nivel to set
+     */
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
     }
 
     /**
@@ -40,20 +56,21 @@ public class Cliente extends Pessoa{
     }
 
     /**
-     * @return the status
+     * @return the observacoes
      */
-    public String getStatus() {
-        return status;
+    public String getObservacoes() {
+        return observacoes;
     }
 
     /**
-     * @param status the status to set
+     * @param observacoes the observacoes to set
      */
-    public void setStatus(String status) {
-        this.status = status;
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
     }
-    
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return super.toString() + "Nível: " + nivel + ", " + "Apelido: " + apelido + ", " + "Observações: " + observacoes;
+    }
 }

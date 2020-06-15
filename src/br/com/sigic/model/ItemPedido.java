@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ItemPedido {
     
-    private int quantidade;
+    private Integer quantidade;
     private Double preco;
     private Double desconto;
     private Pedido pedido;
@@ -24,7 +24,7 @@ public class ItemPedido {
     public ItemPedido() {
     }
 
-    public ItemPedido(int quantidade, Double preco, Double desconto, Pedido pedido) {
+    public ItemPedido(Integer quantidade, Double preco, Double desconto, Pedido pedido) {
         this.quantidade = quantidade;
         this.preco = new Produto().getPreco();
         this.desconto = desconto;
@@ -41,7 +41,7 @@ public class ItemPedido {
     /**
      * @param quantidade the quantidade to set
      */
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 

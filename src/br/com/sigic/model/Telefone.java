@@ -11,7 +11,7 @@ package br.com.sigic.model;
  */
 public class Telefone {
     
-    private int id;
+    private Integer id;
     private String tipo;
     private String ddd;
     private String numero;
@@ -19,7 +19,7 @@ public class Telefone {
     public Telefone() {
     }
 
-    public Telefone(int id, String tipo, String ddd, String numero) {
+    public Telefone(Integer id, String tipo, String ddd, String numero) {
         this.id = id;
         this.tipo = tipo;
         this.ddd = ddd;
@@ -36,7 +36,7 @@ public class Telefone {
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

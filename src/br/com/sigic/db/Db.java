@@ -12,6 +12,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -77,4 +79,8 @@ public class Db {
         }
     }
     
+    public static String sendDateToMySql(Date data){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");               
+        return formatter.format(data);
+    }
 }

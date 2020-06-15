@@ -11,7 +11,7 @@ package br.com.sigic.model;
  */
 public class Produto {
     
-    private int id;
+    private Integer id;
     private String nome;
     private String descricao;
     private Double preco;
@@ -20,7 +20,7 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(int id, String nome, String descricao, Double preco, String imgUrl) {
+    public Produto(Integer id, String nome, String descricao, Double preco, String imgUrl) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -38,7 +38,7 @@ public class Produto {
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
