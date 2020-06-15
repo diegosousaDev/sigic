@@ -18,6 +18,7 @@ public class Pedido {
     
     private Integer id;
     private Date data;
+    private String observacao;
     private StatusPedido statusPedido;
     private Cliente cliente;
     private Funcionario funcionario;
@@ -28,9 +29,10 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(Integer id, Date data, StatusPedido statusPedido, Cliente cliente, Funcionario funcionario, Mesa mesa) {
+    public Pedido(Integer id, Date data, String observacao,StatusPedido statusPedido, Cliente cliente, Funcionario funcionario, Mesa mesa) {
         this.id = id;
         this.data = data;
+        this.observacao = observacao;
         this.statusPedido = statusPedido;
         this.cliente = cliente;
         this.funcionario = funcionario;
@@ -65,6 +67,22 @@ public class Pedido {
         this.data = data;
     }
 
+    /**
+     * @return the observacao
+     */
+    public String getObservacao() {
+        return observacao;
+    }
+
+    /**
+     * @param observacao the observacao to set
+     */
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
+    
+    
     /**
      * @return the statusPedido
      */

@@ -17,5 +17,5 @@ public enum StatusPedido {
     
     StatusPedido(int valor) {
         this.valor = valor;
-    } 
+    }     
 }
