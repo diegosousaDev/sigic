@@ -18,7 +18,7 @@ public class Pessoa {
     private String email;
     private String cpf;
     private Date nascimento;
-    private Status status;
+    private StatusPessoa status;
     private Categoria categoria;
     private Telefone telefone;
     private Endereco endereco;
@@ -26,7 +26,7 @@ public class Pessoa {
     public Pessoa() {
     }
 
-    public Pessoa(Integer id, String nome, String email, String cpf, Date nascimento, Status status, Categoria categoria, Telefone telefone, Endereco endereco) {
+    public Pessoa(Integer id, String nome, String email, String cpf, Date nascimento, StatusPessoa status, Categoria categoria, Telefone telefone, Endereco endereco) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -111,14 +111,14 @@ public class Pessoa {
     /**
      * @return the status
      */
-    public Status getStatus() {
+    public StatusPessoa getStatus() {
         return status;
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(Status status) {
+    public void setStatus(StatusPessoa status) {
         this.status = status;
     }
 

@@ -9,15 +9,15 @@ package br.com.sigic.model;
  *
  * @author ederc
  */
-public class Status {
+public class StatusPessoa {
     
     private Integer id;
     private String descricao;
 
-    public Status() {
+    public StatusPessoa() {
     }
 
-    public Status(Integer id, String descricao) {
+    public StatusPessoa(Integer id, String descricao) {
         this.id = id;
         this.descricao = descricao;
     }

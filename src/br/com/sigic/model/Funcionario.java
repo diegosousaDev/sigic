@@ -21,7 +21,7 @@ public class Funcionario extends Pessoa{
     public Funcionario() {
     }
 
-    public Funcionario(Date data_admissao, Date data_saida, String funcao, String carteira, int id, String nome, String email, String cpf, Date nascimento, Status status, Categoria categoria, Telefone telefone, Endereco endereco) {
+    public Funcionario(Date data_admissao, Date data_saida, String funcao, String carteira, int id, String nome, String email, String cpf, Date nascimento, StatusPessoa status, Categoria categoria, Telefone telefone, Endereco endereco) {
         super(id, nome, email, cpf, nascimento, status, categoria, telefone, endereco);
         this.data_admissao = data_admissao;
         this.data_saida = data_saida;
