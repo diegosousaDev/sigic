@@ -5,12 +5,12 @@
  */
 package br.com.sigic.dao.impl;
 
-import br.com.sigic.model.Cliente;
+import br.com.sigic.model.Mesa;
 
 import java.sql.*;
 import br.com.sigic.db.Db;
 import br.com.sigic.db.DbException;
-import br.com.sigic.dao.ClienteDao;
+import br.com.sigic.dao.MesaDao;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,39 +18,38 @@ import java.util.List;
  *
  * @author ederc
  */
-public class ClienteDaoJDBC implements ClienteDao {
+public class MesaDaoJDBC implements MesaDao {
 
-    public ClienteDaoJDBC() {
+    public MesaDaoJDBC() {
     }
 
     private Connection conn;
 
-    public ClienteDaoJDBC(Connection conn) {
+    public MesaDaoJDBC(Connection conn) {
         this.conn = conn;
     }
 
     @Override
-    public void insert(Cliente obj) {
+    public void insert(Mesa obj) {
 
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("INSERT INTO tb_pessoa"
-                    + "(nome, email, cpf, data_nascimento)"
-                    + "VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("INSERT INTO tb_mesa"
+                    + "(numero, qtd_pessoas, status)"
+                    + "VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
-            st.setString(1, obj.getNome());
-            st.setString(2, obj.getEmail());
-            st.setString(3, obj.getCpf());
-            st.setString(4, Db.sendDateToMySql(obj.getNascimento()));
-
+            st.setInt(1, obj.getNumero());
+            st.setInt(2, obj.getPessoas());
+            st.setString(3, obj.getStatus());
+            
             int rowsAffected = st.executeUpdate();
 
             if (rowsAffected > 0) {
                 ResultSet rs = st.getGeneratedKeys();
                 if (rs.next()) {
-                    int id = rs.getInt(1);
-                    obj.setId(id);
+                    int numero = rs.getInt(1);
+                    obj.setNumero(numero);
                     Db.closeResultSet(rs);
                 } else {
                     throw new DbException("Erro inesperado, nenhuma linha foi alterada.");
@@ -64,16 +63,14 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public void update(Cliente obj) {
+    public void update(Mesa obj) {
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("UPDATE tb_pessoa SET nome = ?, email = ?, cpf = ?, data_nascimento = ? WHERE Id = ?");
+            st = conn.prepareStatement("UPDATE tb_mesa SET qtd_pessoas = ?, status = ? WHERE  numero = ?");
 
-            st.setString(1, obj.getNome());
-            st.setString(2, obj.getEmail());
-            st.setString(3, obj.getCpf());
-            st.setString(4, Db.sendDateToMySql(obj.getNascimento()));
-            st.setInt(5, obj.getId());
+            st.setInt(1, obj.getPessoas());
+            st.setString(2, obj.getStatus());
+            st.setInt(3, obj.getNumero());
 
             st.executeUpdate();
 
@@ -85,13 +82,13 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteByNumero(Integer numero) {
 
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("DELETE FROM tb_pessoa WHERE id = ?");
+            st = conn.prepareStatement("DELETE FROM tb_mesa WHERE numero = ?");
 
-            st.setInt(1, id);
+            st.setInt(1, numero);
 
             int rows = st.executeUpdate();
 
@@ -108,25 +105,22 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public Cliente findById(Integer id) {
+    public Mesa findByNumero(Integer numero) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
             st = conn.prepareStatement("SELECT * "
-                    + "FROM tb_pessoa "
-                    + "WHERE id = ? "
-                    + "AND id_categoria = 2");
+                    + "FROM tb_mesa "
+                    + "WHERE numero = ? ");
 
-            st.setInt(1, id);
+            st.setInt(1, numero);
             rs = st.executeQuery();
 
             if (rs.next()) {
-                Cliente obj = new Cliente();
-                obj.setId(rs.getInt("id"));
-                obj.setNome(rs.getString("nome"));
-                obj.setEmail(rs.getString("email"));
-                obj.setCpf(rs.getString("cpf"));
-                obj.setNascimento(rs.getDate("data_nascimento"));
+                Mesa obj = new Mesa();
+                obj.setNumero(rs.getInt("numero"));
+                obj.setPessoas(rs.getInt("qtd_pessoas"));
+                obj.setStatus(rs.getString("status"));
                 return obj;
             }
             return null;
@@ -139,27 +133,27 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public List<Cliente> findAll() {
+    public List<Mesa> findAll() {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
 
-            st = conn.prepareStatement("SELECT * FROM tb_pessoa WHERE id_categoria = 2 ORDER BY Nome");
+            st = conn.prepareStatement("SELECT * FROM tb_mesa "
+                    + "ORDER BY numero");
 
             rs = st.executeQuery();
 
-            List<Cliente> clientes = new ArrayList<>();
+            List<Mesa> mesas = new ArrayList<>();
 
             while (rs.next()) {
-                Cliente obj = new Cliente();
-                obj.setId(rs.getInt("id"));
-                obj.setNome(rs.getString("nome"));
-                obj.setEmail(rs.getString("email"));
-                obj.setCpf(rs.getString("cpf"));
-                obj.setNascimento(rs.getDate("data_nascimento"));
-                clientes.add(obj);
+                Mesa obj = new Mesa();
+                obj.setNumero(rs.getInt("numero"));
+                obj.setPessoas(rs.getInt("qtd_pessoas"));
+                obj.setStatus(rs.getString("status"));
+                
+                mesas.add(obj);
             }
-            return clientes;
+            return mesas;
         } catch (SQLException erro) {
             throw new DbException(erro.getMessage());
         } finally {

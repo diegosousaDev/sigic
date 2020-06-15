@@ -9,9 +9,10 @@ package br.com.sigic.model;
  *
  * @author ederc
  */
-class Endereco {
+public class Endereco {
     
     private Integer id;
+    private String logradouro;
     private String rua;
     private Integer numero;
     private String complemento;
@@ -23,8 +24,9 @@ class Endereco {
     public Endereco() {
     }
 
-    public Endereco(Integer id, String rua, Integer numero, String complemento, String bairro, String cidade, String estado, String cep) {
+    public Endereco(Integer id, String logradouro, String rua, Integer numero, String complemento, String bairro, String cidade, String estado, String cep) {
         this.id = id;
+        this.logradouro = logradouro;
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
@@ -48,6 +50,20 @@ class Endereco {
         this.id = id;
     }
 
+    /**
+     * @return the logradouro
+     */
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    /**
+     * @param logradouro the logradouro to set
+     */
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+    
     /**
      * @return the rua
      */

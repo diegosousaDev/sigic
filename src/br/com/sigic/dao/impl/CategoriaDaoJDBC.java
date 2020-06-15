@@ -5,12 +5,12 @@
  */
 package br.com.sigic.dao.impl;
 
-import br.com.sigic.model.Cliente;
+import br.com.sigic.model.Categoria;
 
 import java.sql.*;
 import br.com.sigic.db.Db;
 import br.com.sigic.db.DbException;
-import br.com.sigic.dao.ClienteDao;
+import br.com.sigic.dao.CategoriaDao;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,32 +18,29 @@ import java.util.List;
  *
  * @author ederc
  */
-public class ClienteDaoJDBC implements ClienteDao {
+public class CategoriaDaoJDBC implements CategoriaDao {
 
-    public ClienteDaoJDBC() {
+    public CategoriaDaoJDBC() {
     }
 
     private Connection conn;
 
-    public ClienteDaoJDBC(Connection conn) {
+    public CategoriaDaoJDBC(Connection conn) {
         this.conn = conn;
     }
 
     @Override
-    public void insert(Cliente obj) {
+    public void insert(Categoria obj) {
 
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("INSERT INTO tb_pessoa"
-                    + "(nome, email, cpf, data_nascimento)"
-                    + "VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("INSERT INTO tb_categoria"
+                    + "(descricao)"
+                    + "VALUES (?)", Statement.RETURN_GENERATED_KEYS);
 
-            st.setString(1, obj.getNome());
-            st.setString(2, obj.getEmail());
-            st.setString(3, obj.getCpf());
-            st.setString(4, Db.sendDateToMySql(obj.getNascimento()));
-
+            st.setString(1, obj.getDescricao());
+            
             int rowsAffected = st.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -64,16 +61,13 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public void update(Cliente obj) {
+    public void update(Categoria obj) {
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("UPDATE tb_pessoa SET nome = ?, email = ?, cpf = ?, data_nascimento = ? WHERE Id = ?");
+            st = conn.prepareStatement("UPDATE tb_categoria SET descricao = ? WHERE Id = ?");
 
-            st.setString(1, obj.getNome());
-            st.setString(2, obj.getEmail());
-            st.setString(3, obj.getCpf());
-            st.setString(4, Db.sendDateToMySql(obj.getNascimento()));
-            st.setInt(5, obj.getId());
+            st.setString(1, obj.getDescricao());
+            st.setInt(2, obj.getId());
 
             st.executeUpdate();
 
@@ -89,7 +83,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("DELETE FROM tb_pessoa WHERE id = ?");
+            st = conn.prepareStatement("DELETE FROM tb_categoria WHERE id = ?");
 
             st.setInt(1, id);
 
@@ -108,25 +102,21 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public Cliente findById(Integer id) {
+    public Categoria findById(Integer id) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
             st = conn.prepareStatement("SELECT * "
-                    + "FROM tb_pessoa "
-                    + "WHERE id = ? "
-                    + "AND id_categoria = 2");
+                    + "FROM tb_categoria "
+                    + "WHERE id = ? ");
 
             st.setInt(1, id);
             rs = st.executeQuery();
 
             if (rs.next()) {
-                Cliente obj = new Cliente();
+                Categoria obj = new Categoria();
                 obj.setId(rs.getInt("id"));
-                obj.setNome(rs.getString("nome"));
-                obj.setEmail(rs.getString("email"));
-                obj.setCpf(rs.getString("cpf"));
-                obj.setNascimento(rs.getDate("data_nascimento"));
+                obj.setDescricao(rs.getString("descricao"));
                 return obj;
             }
             return null;
@@ -139,27 +129,23 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public List<Cliente> findAll() {
+    public List<Categoria> findAll() {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
 
-            st = conn.prepareStatement("SELECT * FROM tb_pessoa WHERE id_categoria = 2 ORDER BY Nome");
+            st = conn.prepareStatement("SELECT * FROM tb_categoria ORDER BY Nome");
 
             rs = st.executeQuery();
 
-            List<Cliente> clientes = new ArrayList<>();
+            List<Categoria> categorias = new ArrayList<>();
 
             while (rs.next()) {
-                Cliente obj = new Cliente();
+                Categoria obj = new Categoria();
                 obj.setId(rs.getInt("id"));
-                obj.setNome(rs.getString("nome"));
-                obj.setEmail(rs.getString("email"));
-                obj.setCpf(rs.getString("cpf"));
-                obj.setNascimento(rs.getDate("data_nascimento"));
-                clientes.add(obj);
+                categorias.add(obj);
             }
-            return clientes;
+            return categorias;
         } catch (SQLException erro) {
             throw new DbException(erro.getMessage());
         } finally {
@@ -167,7 +153,4 @@ public class ClienteDaoJDBC implements ClienteDao {
             Db.closeResultSet(rs);
         }
     }
-    
-    
-    
 }

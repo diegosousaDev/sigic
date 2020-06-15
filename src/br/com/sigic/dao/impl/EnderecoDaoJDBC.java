@@ -5,12 +5,11 @@
  */
 package br.com.sigic.dao.impl;
 
-import br.com.sigic.model.Cliente;
-
 import java.sql.*;
 import br.com.sigic.db.Db;
 import br.com.sigic.db.DbException;
-import br.com.sigic.dao.ClienteDao;
+import br.com.sigic.dao.EnderecoDao;
+import br.com.sigic.model.Endereco;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,32 +17,36 @@ import java.util.List;
  *
  * @author ederc
  */
-public class ClienteDaoJDBC implements ClienteDao {
+public class EnderecoDaoJDBC implements EnderecoDao {
 
-    public ClienteDaoJDBC() {
+    public EnderecoDaoJDBC() {
     }
 
     private Connection conn;
 
-    public ClienteDaoJDBC(Connection conn) {
+    public EnderecoDaoJDBC(Connection conn) {
         this.conn = conn;
     }
 
     @Override
-    public void insert(Cliente obj) {
+    public void insert(Endereco obj) {
 
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("INSERT INTO tb_pessoa"
-                    + "(nome, email, cpf, data_nascimento)"
-                    + "VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("INSERT INTO tb_endereco"
+                    + "(logradouro, rua, numero, complemento, bairro, cidade, uf, cep)"
+                    + "VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
-            st.setString(1, obj.getNome());
-            st.setString(2, obj.getEmail());
-            st.setString(3, obj.getCpf());
-            st.setString(4, Db.sendDateToMySql(obj.getNascimento()));
-
+            st.setString(1, obj.getLogradouro());
+            st.setString(2, obj.getRua());
+            st.setInt(3, obj.getNumero());
+            st.setString(4, obj.getComplemento());
+            st.setString(5, obj.getBairro());
+            st.setString(6, obj.getCidade());
+            st.setString(7, obj.getEstado());
+            st.setString(8, obj.getCep());
+            
             int rowsAffected = st.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -64,16 +67,22 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public void update(Cliente obj) {
+    public void update(Endereco obj) {
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("UPDATE tb_pessoa SET nome = ?, email = ?, cpf = ?, data_nascimento = ? WHERE Id = ?");
+            st = conn.prepareStatement("UPDATE tb_endereco "
+                    + "SET logradouro = ?, rua = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, uf = ?, cep = ? "
+                    + "WHERE Id = ?");
 
-            st.setString(1, obj.getNome());
-            st.setString(2, obj.getEmail());
-            st.setString(3, obj.getCpf());
-            st.setString(4, Db.sendDateToMySql(obj.getNascimento()));
-            st.setInt(5, obj.getId());
+            st.setString(1, obj.getLogradouro());
+            st.setString(2, obj.getRua());
+            st.setInt(3, obj.getNumero());
+            st.setString(4, obj.getComplemento());
+            st.setString(5, obj.getBairro());
+            st.setString(6, obj.getCidade());
+            st.setString(7, obj.getEstado());
+            st.setString(8, obj.getCep());
+            st.setInt(9, obj.getId());
 
             st.executeUpdate();
 
@@ -89,7 +98,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("DELETE FROM tb_pessoa WHERE id = ?");
+            st = conn.prepareStatement("DELETE FROM tb_endereco "
+                    + "WHERE id = ?");
 
             st.setInt(1, id);
 
@@ -108,25 +118,19 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public Cliente findById(Integer id) {
+    public Endereco findById(Integer id) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
             st = conn.prepareStatement("SELECT * "
-                    + "FROM tb_pessoa "
-                    + "WHERE id = ? "
-                    + "AND id_categoria = 2");
+                    + "FROM tb_endereco "
+                    + "WHERE id = ? ");
 
             st.setInt(1, id);
             rs = st.executeQuery();
 
             if (rs.next()) {
-                Cliente obj = new Cliente();
-                obj.setId(rs.getInt("id"));
-                obj.setNome(rs.getString("nome"));
-                obj.setEmail(rs.getString("email"));
-                obj.setCpf(rs.getString("cpf"));
-                obj.setNascimento(rs.getDate("data_nascimento"));
+                Endereco obj = instanciarEndereco(rs);
                 return obj;
             }
             return null;
@@ -139,27 +143,24 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public List<Cliente> findAll() {
+    public List<Endereco> findAll() {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
 
-            st = conn.prepareStatement("SELECT * FROM tb_pessoa WHERE id_categoria = 2 ORDER BY Nome");
+            st = conn.prepareStatement("SELECT * "
+                    + "FROM tb_endereco "
+                    + "ORDER BY Nome");
 
             rs = st.executeQuery();
 
-            List<Cliente> clientes = new ArrayList<>();
+            List<Endereco> enderecos = new ArrayList<>();
 
             while (rs.next()) {
-                Cliente obj = new Cliente();
-                obj.setId(rs.getInt("id"));
-                obj.setNome(rs.getString("nome"));
-                obj.setEmail(rs.getString("email"));
-                obj.setCpf(rs.getString("cpf"));
-                obj.setNascimento(rs.getDate("data_nascimento"));
-                clientes.add(obj);
+                Endereco obj = instanciarEndereco(rs);
+                enderecos.add(obj);
             }
-            return clientes;
+            return enderecos;
         } catch (SQLException erro) {
             throw new DbException(erro.getMessage());
         } finally {
@@ -167,7 +168,16 @@ public class ClienteDaoJDBC implements ClienteDao {
             Db.closeResultSet(rs);
         }
     }
-    
-    
-    
+    private Endereco instanciarEndereco(ResultSet rs) throws SQLException{
+        Endereco obj = new Endereco();
+        obj.setId(rs.getInt("id"));
+        obj.setLogradouro(rs.getString("logradouro"));
+        obj.setRua(rs.getString("rua"));
+        obj.setNumero(rs.getInt("numero"));
+        obj.setComplemento(rs.getString("complemento"));
+        obj.setBairro(rs.getString("bairro"));
+        obj.setCidade(rs.getString("uf"));
+        obj.setCep(rs.getString("cep"));
+        return obj;
+    }
 }
