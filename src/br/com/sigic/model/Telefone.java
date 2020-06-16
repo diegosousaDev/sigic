@@ -12,14 +12,14 @@ package br.com.sigic.model;
 public class Telefone {
     
     private Integer id;
-    private String tipo;
-    private String ddd;
+    private TipoTel tipo;
+    private Integer ddd;
     private String numero;
 
     public Telefone() {
     }
 
-    public Telefone(Integer id, String tipo, String ddd, String numero) {
+    public Telefone(Integer id, TipoTel tipo, Integer ddd, String numero) {
         this.id = id;
         this.tipo = tipo;
         this.ddd = ddd;
@@ -29,7 +29,7 @@ public class Telefone {
     /**
      * @return the id
      */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -43,28 +43,28 @@ public class Telefone {
     /**
      * @return the tipo
      */
-    public String getTipo() {
+    public TipoTel getTipo() {
         return tipo;
     }
 
     /**
      * @param tipo the tipo to set
      */
-    public void setTipo(String tipo) {
+    public void setTipo(TipoTel tipo) {
         this.tipo = tipo;
     }
 
     /**
      * @return the ddd
      */
-    public String getDdd() {
+    public Integer getDdd() {
         return ddd;
     }
 
     /**
      * @param ddd the ddd to set
      */
-    public void setDdd(String ddd) {
+    public void setDdd(Integer ddd) {
         this.ddd = ddd;
     }
 
@@ -80,5 +80,7 @@ public class Telefone {
      */
     public void setNumero(String numero) {
         this.numero = numero;
-    }    
+    }
+
+   
 }
