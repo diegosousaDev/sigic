@@ -17,6 +17,8 @@ public interface TipoTelDao {
     void insert(TipoTel obj);
 
     void update(TipoTel obj);
+    
+    void deleteById(Integer id);
 
     TipoTel findById(Integer id);
 

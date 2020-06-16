@@ -17,7 +17,7 @@ public interface TelefoneDao {
     void insert(Telefone obj);
 
     void update(Telefone obj);
-
+    
     Telefone findById(Integer id);
 
     List<Telefone> findAll();

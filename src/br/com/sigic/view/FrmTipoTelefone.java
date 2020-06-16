@@ -5,11 +5,36 @@
  */
 package br.com.sigic.view;
 
+import br.com.sigic.dao.DaoFactory;
+import br.com.sigic.dao.TipoTelDao;
+import br.com.sigic.db.DbException;
+import br.com.sigic.model.TipoTel;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ederc
  */
 public class FrmTipoTelefone extends javax.swing.JFrame {
+
+    TipoTelDao tipoTelDao = DaoFactory.criarTipoTelDao();
+
+    public void listar() {
+
+        List<TipoTel> lista = tipoTelDao.findAll();
+        DefaultTableModel dados = (DefaultTableModel) tabelaTipoTelefone.getModel();
+        dados.setNumRows(0);
+
+        lista.stream().forEach((c) -> {
+            dados.addRow(new Object[]{
+                c.getId(),
+                c.getTipo()
+            });
+        });
+
+    }
 
     /**
      * Creates new form FrmTipoTelefone
@@ -30,13 +55,23 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TblTipoTelefone = new javax.swing.JTable();
+        tabelaTipoTelefone = new javax.swing.JTable();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        txtTipoTelefone = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
-        jPanel3.setBackground(new java.awt.Color(0, 51, 204));
+        jPanel3.setBackground(new java.awt.Color(0, 153, 204));
+        jPanel3.setToolTipText("");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Tipo de Telefone");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -44,7 +79,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(257, Short.MAX_VALUE)
+                .addContainerGap(259, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addContainerGap())
         );
@@ -56,12 +91,9 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        TblTipoTelefone.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaTipoTelefone.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Id", "Tipo"
@@ -75,12 +107,26 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(TblTipoTelefone);
-        if (TblTipoTelefone.getColumnModel().getColumnCount() > 0) {
-            TblTipoTelefone.getColumnModel().getColumn(0).setResizable(false);
-            TblTipoTelefone.getColumnModel().getColumn(0).setPreferredWidth(10);
-            TblTipoTelefone.getColumnModel().getColumn(1).setResizable(false);
+        jScrollPane1.setViewportView(tabelaTipoTelefone);
+        if (tabelaTipoTelefone.getColumnModel().getColumnCount() > 0) {
+            tabelaTipoTelefone.getColumnModel().getColumn(0).setResizable(false);
+            tabelaTipoTelefone.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tabelaTipoTelefone.getColumnModel().getColumn(1).setResizable(false);
         }
+
+        jToggleButton1.setText("Remover");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton2.setText("Adicionar");
+        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,20 +135,72 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                    .addComponent(txtTipoTelefone))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(txtTipoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jToggleButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jToggleButton1)
+                        .addGap(44, 44, 44))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(12, Short.MAX_VALUE))))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+
+        try {
+            int input = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir o registro selecionado?", "Atenção", JOptionPane.OK_CANCEL_OPTION);
+
+            if (input == 0) {
+                Integer id = (Integer) tabelaTipoTelefone.getModel().getValueAt(tabelaTipoTelefone.getSelectedRow(), 0);
+                tipoTelDao.deleteById(id);
+                listar();
+            }
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir: " + e);
+        }
+
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        try {
+            String descricao = txtTipoTelefone.getText();
+            if (!descricao.isEmpty()) {
+                TipoTel obj = new TipoTel(null, descricao);
+                tipoTelDao.insert(obj);
+                JOptionPane.showMessageDialog(null, "Registro Inserido com sucesso.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Insira um valor para adicionar.");
+            }
+        } catch (RuntimeException e) {
+            throw new DbException("Erro: " + e);
+        }
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        listar();
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -140,9 +238,12 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TblTipoTelefone;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JTable tabelaTipoTelefone;
+    private javax.swing.JTextField txtTipoTelefone;
     // End of variables declaration//GEN-END:variables
 }

@@ -12,6 +12,7 @@ import br.com.sigic.dao.TipoTelDao;
 import br.com.sigic.model.TipoTel;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -104,6 +105,26 @@ public class TipoTelDaoJDBC implements TipoTelDao {
             Db.closeResultSet(rs);
         }
     }
+    @Override
+    public void deleteById(Integer id) {
+         
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("DELETE FROM tipo_telefone WHERE id = ?");
+
+            st.setInt(1, id);
+
+            int rows = st.executeUpdate();
+
+            if (rows == 0) {
+                JOptionPane.showMessageDialog(null, "Id não localizado.");
+            }
+        } catch (SQLException erro) {
+            throw new DbException(erro.getMessage());
+        } finally {
+            Db.closeStatement(st);
+        }
+    }
 
     @Override
     public List<TipoTel> findAll() {
@@ -112,7 +133,7 @@ public class TipoTelDaoJDBC implements TipoTelDao {
         try {
 
             st = conn.prepareStatement("SELECT * FROM tipo_telefone "
-                    + "ORDER BY nome");
+                    + "ORDER BY tipo");
 
             rs = st.executeQuery();
 
