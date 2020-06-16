@@ -78,7 +78,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
         jScrollPane1.setViewportView(TblTipoTelefone);
         if (TblTipoTelefone.getColumnModel().getColumnCount() > 0) {
             TblTipoTelefone.getColumnModel().getColumn(0).setResizable(false);
-            TblTipoTelefone.getColumnModel().getColumn(0).setPreferredWidth(30);
+            TblTipoTelefone.getColumnModel().getColumn(0).setPreferredWidth(10);
             TblTipoTelefone.getColumnModel().getColumn(1).setResizable(false);
         }
 
