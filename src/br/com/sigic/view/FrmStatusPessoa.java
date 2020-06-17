@@ -6,9 +6,9 @@
 package br.com.sigic.view;
 
 import br.com.sigic.dao.DaoFactory;
-import br.com.sigic.dao.TipoTelDao;
+import br.com.sigic.dao.StatusPessoaDao;
 import br.com.sigic.db.DbException;
-import br.com.sigic.model.TipoTel;
+import br.com.sigic.model.StatusPessoa;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -17,20 +17,20 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ederc
  */
-public class FrmTipoTelefone extends javax.swing.JFrame {
+public class FrmStatusPessoa extends javax.swing.JFrame {
 
-    TipoTelDao tipoTelDao = DaoFactory.criarTipoTelDao();
+    StatusPessoaDao statusPessoaDao = DaoFactory.criarStatusPessoaDao();
 
     public void listar() {
         
-        List<TipoTel> lista = tipoTelDao.findAll();
-        DefaultTableModel dados = (DefaultTableModel) tabelaTipoTelefone.getModel();
+        List<StatusPessoa> lista = statusPessoaDao.findAll();
+        DefaultTableModel dados = (DefaultTableModel) tabelaStatusPessoa.getModel();
         dados.setNumRows(0);
 
         lista.stream().forEach((c) -> {
             dados.addRow(new Object[]{
                 c.getId(),
-                c.getTipo()
+                c.getDescricao()
             });
         });
 
@@ -39,7 +39,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
     /**
      * Creates new form FrmTipoTelefone
      */
-    public FrmTipoTelefone() {
+    public FrmStatusPessoa() {
         initComponents();
     }
 
@@ -55,14 +55,14 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        txtTipoTelefone = new javax.swing.JTextField();
+        txtStatusPessoa = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaTipoTelefone = new javax.swing.JTable();
+        tabelaStatusPessoa = new javax.swing.JTable();
         btnRemove = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Sigic | Tipos de Telefones");
+        setTitle("Sigic | Status Usuário");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -74,7 +74,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Tipo de Telefone");
+        jLabel1.setText("Status Usuário");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -95,7 +95,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        tabelaTipoTelefone.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaStatusPessoa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -118,13 +118,13 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tabelaTipoTelefone.setGridColor(new java.awt.Color(255, 102, 102));
-        tabelaTipoTelefone.setRowHeight(15);
-        tabelaTipoTelefone.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabelaTipoTelefone.setShowHorizontalLines(false);
-        tabelaTipoTelefone.setShowVerticalLines(false);
-        tabelaTipoTelefone.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tabelaTipoTelefone);
+        tabelaStatusPessoa.setGridColor(new java.awt.Color(255, 102, 102));
+        tabelaStatusPessoa.setRowHeight(15);
+        tabelaStatusPessoa.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabelaStatusPessoa.setShowHorizontalLines(false);
+        tabelaStatusPessoa.setShowVerticalLines(false);
+        tabelaStatusPessoa.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tabelaStatusPessoa);
 
         btnRemove.setBackground(new java.awt.Color(0, 153, 204));
         btnRemove.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -160,7 +160,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
-                    .addComponent(txtTipoTelefone))
+                    .addComponent(txtStatusPessoa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -172,7 +172,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTipoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtStatusPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,8 +213,8 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
             int input = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir o registro selecionado?", "Atenção", JOptionPane.OK_CANCEL_OPTION);
 
             if (input == 0) {
-                Integer id = (Integer) tabelaTipoTelefone.getModel().getValueAt(tabelaTipoTelefone.getSelectedRow(), 0);
-                tipoTelDao.deleteById(id);
+                Integer id = (Integer) tabelaStatusPessoa.getModel().getValueAt(tabelaStatusPessoa.getSelectedRow(), 0);
+                statusPessoaDao.deleteById(id);
                 listar();
             }
         } catch (RuntimeException e) {
@@ -224,10 +224,10 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            String descricao = txtTipoTelefone.getText();
+            String descricao = txtStatusPessoa.getText();
             if (!descricao.isEmpty()) {
-                TipoTel obj = new TipoTel(null, descricao);
-                tipoTelDao.insert(obj);
+                StatusPessoa obj = new StatusPessoa(null, descricao);
+                statusPessoaDao.insert(obj);
                 JOptionPane.showMessageDialog(null, "Registro Inserido com sucesso.");
             } else {
                 JOptionPane.showMessageDialog(null, "Insira um valor para adicionar.");
@@ -254,20 +254,21 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmTipoTelefone.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmStatusPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmTipoTelefone.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmStatusPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmTipoTelefone.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmStatusPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmTipoTelefone.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmStatusPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmTipoTelefone().setVisible(true);
+                new FrmStatusPessoa().setVisible(true);
             }
         });
     }
@@ -279,7 +280,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tabelaTipoTelefone;
-    private javax.swing.JTextField txtTipoTelefone;
+    private javax.swing.JTable tabelaStatusPessoa;
+    private javax.swing.JTextField txtStatusPessoa;
     // End of variables declaration//GEN-END:variables
 }

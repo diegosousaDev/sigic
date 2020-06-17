@@ -13,6 +13,7 @@ import br.com.sigic.db.DbException;
 import br.com.sigic.dao.StatusPessoaDao;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -105,6 +106,27 @@ public class StatusPessoaDaoJDBC implements StatusPessoaDao {
             Db.closeResultSet(rs);
         }
     }
+    
+    @Override
+    public void deleteById(Integer id) {
+         
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("DELETE FROM tb_statuspessoa WHERE id = ?");
+
+            st.setInt(1, id);
+
+            int rows = st.executeUpdate();
+
+            if (rows == 0) {
+                JOptionPane.showMessageDialog(null, "Id não localizado.");
+            }
+        } catch (SQLException erro) {
+            throw new DbException(erro.getMessage());
+        } finally {
+            Db.closeStatement(st);
+        }
+    }
 
     @Override
     public List<StatusPessoa> findAll() {
@@ -113,7 +135,7 @@ public class StatusPessoaDaoJDBC implements StatusPessoaDao {
         try {
 
             st = conn.prepareStatement("SELECT * FROM tb_statuspessoa "
-                    + "ORDER BY nome");
+                    + "ORDER BY id");
 
             rs = st.executeQuery();
 

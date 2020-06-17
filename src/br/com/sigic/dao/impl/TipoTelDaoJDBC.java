@@ -133,7 +133,7 @@ public class TipoTelDaoJDBC implements TipoTelDao {
         try {
 
             st = conn.prepareStatement("SELECT * FROM tipo_telefone "
-                    + "ORDER BY tipo");
+                    + "ORDER BY id");
 
             rs = st.executeQuery();
 

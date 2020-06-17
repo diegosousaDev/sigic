@@ -17,6 +17,8 @@ public interface StatusPessoaDao {
     void insert(StatusPessoa obj);
 
     void update(StatusPessoa obj);
+    
+    void deleteById(Integer id);
 
     StatusPessoa findById(Integer id);
 
