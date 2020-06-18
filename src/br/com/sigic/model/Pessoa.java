@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author ederc
  */
-public class Pessoa {
+public abstract class Pessoa {
     
     private Integer id;
     private String nome;
@@ -19,21 +19,19 @@ public class Pessoa {
     private String cpf;
     private Date nascimento;
     private StatusPessoa status;
-    private Categoria categoria;
     private Telefone telefone;
     private Endereco endereco;
 
     public Pessoa() {
     }
 
-    public Pessoa(Integer id, String nome, String email, String cpf, Date nascimento, StatusPessoa status, Categoria categoria, Telefone telefone, Endereco endereco) {
+    public Pessoa(Integer id, String nome, String email, String cpf, Date nascimento, StatusPessoa status, Telefone telefone, Endereco endereco) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
         this.nascimento = nascimento;
         this.status = status;
-        this.categoria = categoria;
         this.telefone = telefone;
         this.endereco = endereco;
     }
@@ -123,20 +121,6 @@ public class Pessoa {
     }
 
     /**
-     * @return the categoria
-     */
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    /**
-     * @param categoria the categoria to set
-     */
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    /**
      * @return the telefone
      */
     public Telefone getTelefone() {
@@ -167,6 +151,6 @@ public class Pessoa {
     @Override
     public String toString() {
         return "Id: " + id + ", " + "E-mail: " + email + ", " + "Cpf: " + cpf + ", " + "Data de Nascimento: " + nascimento + ", "
-                + "Status: " + status + ", " + "Categoria: " + categoria + ", " + "Telefone: " + telefone + ", " + "Endereco: " + endereco + ", "; 
+                + "Status: " + status + ", " + "Telefone: " + telefone + ", " + "Endereco: " + endereco + ", "; 
     }
 }

@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,7 +33,7 @@ public class Db {
                 conn = DriverManager.getConnection(url, props);
             }
             catch (SQLException e) {
-                throw new DbException(e.getMessage());
+                JOptionPane.showMessageDialog(null, "Falha ao conectar com Banco de Dados. " + e);
             }
         }
         return conn;

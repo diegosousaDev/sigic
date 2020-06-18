@@ -7,6 +7,7 @@ package br.com.sigic.view.utils;
 
 import java.awt.Component;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -22,7 +23,5 @@ public class LimpaTela {
                 ((JTextField) component).setText(null);
             }
         }
-
     }
-
 }

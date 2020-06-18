@@ -10,6 +10,7 @@ import br.com.sigic.dao.ClienteDao;
 import br.com.sigic.dao.FuncionarioDao;
 import br.com.sigic.model.Cliente;
 import br.com.sigic.model.Funcionario;
+import br.com.sigic.view.utils.ViaCep;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,9 +23,9 @@ public class TesteMain {
 
     public static void main(String[] args) {
 
-        ClienteDao clienteDao = DaoFactory.criarClienteDao();
-
-        Cliente cli = new Cliente();
+//        ClienteDao clienteDao = DaoFactory.criarClienteDao();
+//
+//        Cliente cli = new Cliente();
 
 //        cli.setNome("Emely");
 //        cli.setEmail("emely@uol.com");
@@ -56,16 +57,24 @@ public class TesteMain {
 //        cli.setEmail("igor@uol.com");
 //        clienteDao.update(cli);
 
-        FuncionarioDao funcionarioDao = DaoFactory.criarFuncionarioDao();
+//        FuncionarioDao funcionarioDao = DaoFactory.criarFuncionarioDao();
+//
+//        Funcionario func = new Funcionario();
+//
+//        func.setNome("Rafael");
+//        func.setEmail("rafa@gmail.com");
+//        func.setCpf("7777777");
+//        func.setNascimento(new Date("01/02/1970"));
+//        
+//        funcionarioDao.insert(func);
 
-        Funcionario func = new Funcionario();
 
-        func.setNome("Rafael");
-        func.setEmail("rafa@gmail.com");
-        func.setCpf("7777777");
-        func.setNascimento(new Date("01/02/1970"));
-        
-        funcionarioDao.insert(func);
+          ViaCep viaCep = new ViaCep();
+          
+          viaCep.buscarCep("83407730");
+          System.out.println(viaCep.getLogradouro());
+          System.out.println(viaCep.getBairro());
+                  
 
     }
 }
