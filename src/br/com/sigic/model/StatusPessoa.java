@@ -5,12 +5,14 @@
  */
 package br.com.sigic.model;
 
+import java.util.Objects;
+
 /**
  *
  * @author ederc
  */
 public class StatusPessoa {
-    
+
     private Integer id;
     private String descricao;
 
@@ -49,7 +51,10 @@ public class StatusPessoa {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return descricao;
+    }
+ 
 }

@@ -35,14 +35,18 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("INSERT INTO tb_pessoa"
-                    + "(nome, email, cpf, data_nascimento)"
-                    + "VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("INSERT INTO tb_funcionario "
+                    + "(nome, email, cpf_cnpj, data_nascimento, data_admissao, data_saida, funcao, carteira)"
+                    + "VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
             st.setString(3, obj.getCpf());
-            st.setString(4, Db.sendDateToMySql(obj.getNascimento()));
+            st.setString(4, obj.getNascimento());
+            st.setString(5, obj.getData_admissao());
+            st.setString(6, obj.getData_saida());
+            st.setString(7, obj.getFuncao());
+            st.setString(8, obj.getCarteira());
 
             int rowsAffected = st.executeUpdate();
 
@@ -67,13 +71,18 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
     public void update(Funcionario obj) {
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("UPDATE tb_pessoa SET nome = ?, email = ?, cpf = ?, data_nascimento = ? WHERE Id = ?");
+            st = conn.prepareStatement("UPDATE tb_funcionario SET nome = ?, email = ?, cpf_cnpj = ?, data_nascimento = ?, data_admissao = ?, data_saida = ?, funcao = ?, carteira = ? "
+                    + "WHERE Id = ?");
 
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
             st.setString(3, obj.getCpf());
-            st.setString(4, Db.sendDateToMySql(obj.getNascimento()));
-            st.setInt(5, obj.getId());
+            st.setString(4, obj.getNascimento());
+            st.setString(5, obj.getData_admissao());
+            st.setString(6, obj.getData_saida());
+            st.setString(7, obj.getFuncao());
+            st.setString(8, obj.getCarteira());
+            st.setInt(9, obj.getId());
 
             st.executeUpdate();
 
@@ -89,7 +98,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
 
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("DELETE FROM tb_pessoa WHERE id = ?");
+            st = conn.prepareStatement("DELETE FROM tb_funcionario WHERE id = ?");
 
             st.setInt(1, id);
 
@@ -113,20 +122,24 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
         ResultSet rs = null;
         try {
             st = conn.prepareStatement("SELECT * "
-                    + "FROM tb_pessoa "
-                    + "WHERE id = ? "
-                    + "AND id_categoria = 2");
+                    + "FROM tb_funcionario");
 
             st.setInt(1, id);
             rs = st.executeQuery();
 
             if (rs.next()) {
+
                 Funcionario obj = new Funcionario();
                 obj.setId(rs.getInt("id"));
                 obj.setNome(rs.getString("nome"));
                 obj.setEmail(rs.getString("email"));
                 obj.setCpf(rs.getString("cpf"));
-                obj.setNascimento(rs.getDate("data_nascimento"));
+                obj.setNascimento(rs.getString("data_nascimento"));
+                obj.setData_admissao(rs.getString("data_admissao"));
+                obj.setData_saida(rs.getString("data_saida"));
+                obj.setFuncao(rs.getString("funcao"));
+                obj.setCarteira(rs.getString("carteira"));
+
                 return obj;
             }
             return null;
@@ -144,11 +157,11 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
         ResultSet rs = null;
         try {
 
-            st = conn.prepareStatement("SELECT * FROM tb_pessoa WHERE id_categoria = 1 ORDER BY Nome");
+            st = conn.prepareStatement("SELECT * FROM tb_funcionario ORDER BY id");
 
             rs = st.executeQuery();
 
-            List<Funcionario> funcionarios = new ArrayList<>();
+            List<Funcionario> clientes = new ArrayList<>();
 
             while (rs.next()) {
                 Funcionario obj = new Funcionario();
@@ -156,10 +169,14 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
                 obj.setNome(rs.getString("nome"));
                 obj.setEmail(rs.getString("email"));
                 obj.setCpf(rs.getString("cpf"));
-                obj.setNascimento(rs.getDate("data_nascimento"));
-                funcionarios.add(obj);
+                obj.setNascimento(rs.getString("data_nascimento"));
+                obj.setData_admissao(rs.getString("data_admissao"));
+                obj.setData_saida(rs.getString("data_saida"));
+                obj.setFuncao(rs.getString("funcao"));
+                obj.setCarteira(rs.getString("carteira"));
+                clientes.add(obj);
             }
-            return funcionarios;
+            return clientes;
         } catch (SQLException erro) {
             throw new DbException(erro.getMessage());
         } finally {

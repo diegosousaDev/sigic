@@ -35,14 +35,18 @@ public class ClienteDaoJDBC implements ClienteDao {
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("INSERT INTO tb_pessoa"
-                    + "(nome, email, cpf, data_nascimento)"
-                    + "VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-
+            st = conn.prepareStatement("INSERT INTO tb_cliente"
+                    + "(nome, email, cpf_cnpj, data_nascimento, apelido, observacoes, id_status)"
+                    + "VALUES "
+                    + "(?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
             st.setString(3, obj.getCpf());
-            st.setString(4, Db.sendDateToMySql(obj.getNascimento()));
+            st.setString(4, obj.getNascimento());
+            st.setString(5, obj.getApelido());
+            st.setString(6, obj.getObservacoes());
+            st.setInt(7, obj.getStatus().getId());
 
             int rowsAffected = st.executeUpdate();
 
@@ -67,13 +71,17 @@ public class ClienteDaoJDBC implements ClienteDao {
     public void update(Cliente obj) {
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("UPDATE tb_pessoa SET nome = ?, email = ?, cpf = ?, data_nascimento = ? WHERE Id = ?");
+            st = conn.prepareStatement("UPDATE tb_cliente SET nome = ?, email = ?, cpf_cnpj = ?, data_nascimento = ?, apelido = ?, observacoes = ?, id_status = ? "
+                    + "WHERE Id = ?");
 
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
             st.setString(3, obj.getCpf());
-            st.setString(4, Db.sendDateToMySql(obj.getNascimento()));
-            st.setInt(5, obj.getId());
+            st.setString(4, obj.getNascimento());
+            st.setString(5, obj.getApelido());
+            st.setString(6, obj.getObservacoes());
+            st.setInt(7, obj.getStatus().getId());
+            st.setInt(8, obj.getId());
 
             st.executeUpdate();
 
@@ -89,7 +97,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("DELETE FROM tb_pessoa WHERE id = ?");
+            st = conn.prepareStatement("DELETE FROM tb_cliente WHERE id = ?");
 
             st.setInt(1, id);
 
@@ -113,9 +121,8 @@ public class ClienteDaoJDBC implements ClienteDao {
         ResultSet rs = null;
         try {
             st = conn.prepareStatement("SELECT * "
-                    + "FROM tb_pessoa "
-                    + "WHERE id = ? "
-                    + "AND id_categoria = 2");
+                    + "FROM tb_cliente "
+                    + "WHERE id = ?");
 
             st.setInt(1, id);
             rs = st.executeQuery();
@@ -125,8 +132,11 @@ public class ClienteDaoJDBC implements ClienteDao {
                 obj.setId(rs.getInt("id"));
                 obj.setNome(rs.getString("nome"));
                 obj.setEmail(rs.getString("email"));
-                obj.setCpf(rs.getString("cpf"));
-                obj.setNascimento(rs.getDate("data_nascimento"));
+                obj.setCpf(rs.getString("cpf_cnpj"));
+                obj.setNascimento(rs.getString("data_nascimento"));
+                obj.setApelido(rs.getString("apelido"));
+                obj.setObservacoes(rs.getString("observacoes"));
+                
                 return obj;
             }
             return null;
@@ -144,19 +154,23 @@ public class ClienteDaoJDBC implements ClienteDao {
         ResultSet rs = null;
         try {
 
-            st = conn.prepareStatement("SELECT * FROM tb_pessoa WHERE id_categoria = 2 ORDER BY Nome");
+            st = conn.prepareStatement("SELECT * FROM tb_cliente ORDER BY id");
 
             rs = st.executeQuery();
-
+            
             List<Cliente> clientes = new ArrayList<>();
 
             while (rs.next()) {
+               
                 Cliente obj = new Cliente();
                 obj.setId(rs.getInt("id"));
                 obj.setNome(rs.getString("nome"));
                 obj.setEmail(rs.getString("email"));
-                obj.setCpf(rs.getString("cpf"));
-                obj.setNascimento(rs.getDate("data_nascimento"));
+                obj.setCpf(rs.getString("cpf_cnpj"));
+                obj.setNascimento(rs.getString("data_nascimento"));
+                obj.setApelido(rs.getString("apelido"));
+                obj.setObservacoes(rs.getString("observacoes"));
+                
                 clientes.add(obj);
             }
             return clientes;

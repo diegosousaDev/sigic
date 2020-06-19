@@ -35,12 +35,14 @@ public class TelefoneDaoJDBC implements TelefoneDao {
 
         try {
             st = conn.prepareStatement("INSERT INTO tb_telefone "
-                    + "(ddd, numero, tipo_telefone )"
-                    + "VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                    + "(ddd, numero, tipo_telefone, id_cliente, id_funcionario)"
+                    + "VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
             st.setInt(1, obj.getDdd());
             st.setString(2, obj.getNumero());
             st.setInt(3, obj.getTipo().getId());
+            st.setInt(4, obj.getCliente().getId());
+            st.setInt(5, obj.getFuncionario().getId());
                         
             int rowsAffected = st.executeUpdate();
 

@@ -40,7 +40,7 @@ public class PedidoDaoJDBC implements PedidoDao {
                     + "(data, statusPedido, observacao)"
                     + "VALUES (?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
-            st.setString(1, Db.sendDateToMySql(obj.getData()));
+            //st.setString(1, Db.sendDateToMySql(obj.getData()));
             st.setString(2, String.valueOf(obj.getStatusPedido()));
             st.setString(3, obj.getObservacao());
             
@@ -70,7 +70,7 @@ public class PedidoDaoJDBC implements PedidoDao {
             st = conn.prepareStatement("UPDATE tb_pedido SET data = ?, statusPedido = ?, observacao = ? "
                     + "WHERE Id = ?");
 
-            st.setString(1, Db.sendDateToMySql(obj.getData()));
+            //st.setString(1, Db.sendDateToMySql(obj.getData()));
             st.setString(2, String.valueOf(obj.getStatusPedido()));
             st.setString(3, obj.getObservacao());
             st.setInt(4, obj.getId());

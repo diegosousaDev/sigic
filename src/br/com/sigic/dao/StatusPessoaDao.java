@@ -7,6 +7,7 @@ package br.com.sigic.dao;
 
 import br.com.sigic.model.StatusPessoa;
 import java.util.List;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -23,5 +24,7 @@ public interface StatusPessoaDao {
     StatusPessoa findById(Integer id);
 
     List<StatusPessoa> findAll();
+    
+    void mostraStatus(JComboBox<StatusPessoa> comboStatus);
 
 }

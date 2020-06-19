@@ -12,6 +12,7 @@ import br.com.sigic.dao.TipoTelDao;
 import br.com.sigic.model.TipoTel;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -146,6 +147,32 @@ public class TipoTelDaoJDBC implements TipoTelDao {
                 tipos.add(obj);
             }
             return tipos;
+        } catch (SQLException erro) {
+            throw new DbException(erro.getMessage());
+        } finally {
+            Db.closeStatement(st);
+            Db.closeResultSet(rs);
+        }
+    }
+
+    @Override
+    public void mostraStatus(JComboBox<TipoTel> comboStatus) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+
+            st = conn.prepareStatement("SELECT * FROM tipo_telefone "
+                    + "ORDER BY id");
+
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                TipoTel obj = new TipoTel();
+                obj.setId(rs.getInt("id"));
+                obj.setTipo(rs.getString("tipo"));
+                comboStatus.addItem(obj);
+            }
+            
         } catch (SQLException erro) {
             throw new DbException(erro.getMessage());
         } finally {

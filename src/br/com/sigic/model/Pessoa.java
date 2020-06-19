@@ -5,8 +5,6 @@
  */
 package br.com.sigic.model;
 
-import java.util.Date;
-
 /**
  *
  * @author ederc
@@ -17,7 +15,7 @@ public abstract class Pessoa {
     private String nome;
     private String email;
     private String cpf;
-    private Date nascimento;
+    private String nascimento;
     private StatusPessoa status;
     private Telefone telefone;
     private Endereco endereco;
@@ -25,7 +23,7 @@ public abstract class Pessoa {
     public Pessoa() {
     }
 
-    public Pessoa(Integer id, String nome, String email, String cpf, Date nascimento, StatusPessoa status, Telefone telefone, Endereco endereco) {
+    public Pessoa(Integer id, String nome, String email, String cpf, String nascimento, StatusPessoa status, Telefone telefone, Endereco endereco) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -95,14 +93,14 @@ public abstract class Pessoa {
     /**
      * @return the nascimento
      */
-    public Date getNascimento() {
+    public String getNascimento() {
         return nascimento;
     }
 
     /**
      * @param nascimento the nascimento to set
      */
-    public void setNascimento(Date nascimento) {
+    public void setNascimento(String nascimento) {
         this.nascimento = nascimento;
     }
 

@@ -13,6 +13,7 @@ import br.com.sigic.db.DbException;
 import br.com.sigic.dao.StatusPessoaDao;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -135,7 +136,7 @@ public class StatusPessoaDaoJDBC implements StatusPessoaDao {
         try {
 
             st = conn.prepareStatement("SELECT * FROM tb_statuspessoa "
-                    + "ORDER BY id");
+                    + "ORDER BY descricao");
 
             rs = st.executeQuery();
 
@@ -155,4 +156,32 @@ public class StatusPessoaDaoJDBC implements StatusPessoaDao {
             Db.closeResultSet(rs);
         }
     }
+    @Override
+    public void mostraStatus(JComboBox<StatusPessoa> comboStatus){
+        
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+
+            st = conn.prepareStatement("SELECT * FROM tb_statuspessoa "
+                    + "ORDER BY descricao");
+
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                StatusPessoa obj = new StatusPessoa();
+                obj.setId(rs.getInt("id"));
+                obj.setDescricao(rs.getString("descricao"));
+                comboStatus.addItem(obj);
+            }
+            
+        } catch (SQLException erro) {
+            throw new DbException(erro.getMessage());
+        } finally {
+            Db.closeStatement(st);
+            Db.closeResultSet(rs);
+        }
+        
+    }
+    
 }

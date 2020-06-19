@@ -20,7 +20,7 @@ public class Cliente extends Pessoa{
     public Cliente() {
     }   
 
-    public Cliente(String nivel, String apelido, String observacoes, int id, String nome, String email, String cpf, Date nascimento, StatusPessoa status, Telefone telefone, Endereco endereco) {
+    public Cliente(String nivel, String apelido, String observacoes, int id, String nome, String email, String cpf, String nascimento, StatusPessoa status, Telefone telefone, Endereco endereco) {
         super(id, nome, email, cpf, nascimento, status, telefone, endereco);
         this.nivel = nivel;
         this.apelido = apelido;

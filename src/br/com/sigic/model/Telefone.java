@@ -15,15 +15,19 @@ public class Telefone {
     private TipoTel tipo;
     private Integer ddd;
     private String numero;
+    private Cliente cliente;
+    private Funcionario funcionario;
 
     public Telefone() {
     }
 
-    public Telefone(Integer id, TipoTel tipo, Integer ddd, String numero) {
+    public Telefone(Integer id, TipoTel tipo, Integer ddd, String numero, Cliente cliente, Funcionario funcionario) {
         this.id = id;
         this.tipo = tipo;
         this.ddd = ddd;
         this.numero = numero;
+        this.cliente = cliente;
+        this.funcionario = funcionario;
     }
 
     /**
@@ -82,5 +86,31 @@ public class Telefone {
         this.numero = numero;
     }
 
-   
+    /**
+     * @return the cliente
+     */
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    /**
+     * @param cliente the cliente to set
+     */
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    /**
+     * @return the funcionario
+     */
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    /**
+     * @param funcionario the funcionario to set
+     */
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }    
 }

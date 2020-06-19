@@ -7,6 +7,7 @@ package br.com.sigic.dao;
 
 import br.com.sigic.model.TipoTel;
 import java.util.List;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -23,5 +24,7 @@ public interface TipoTelDao {
     TipoTel findById(Integer id);
 
     List<TipoTel> findAll();
+    
+    void mostraStatus(JComboBox<TipoTel> comboStatus);
 
 }
