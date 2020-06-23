@@ -5,8 +5,6 @@
  */
 package br.com.sigic.model;
 
-import java.util.Objects;
-
 /**
  *
  * @author ederc

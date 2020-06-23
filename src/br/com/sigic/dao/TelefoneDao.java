@@ -14,9 +14,11 @@ import java.util.List;
  */
 public interface TelefoneDao {
 
-    void insert(Telefone obj);
+    void insertCliente(Telefone obj);
+    
+    void insertFuncionario(Telefone obj);
 
-    void update(Telefone obj);
+    void updateCliente(Telefone obj);
     
     Telefone findById(Integer id);
 

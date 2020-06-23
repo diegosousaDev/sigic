@@ -29,23 +29,23 @@ public class EnderecoDaoJDBC implements EnderecoDao {
     }
 
     @Override
-    public void insert(Endereco obj) {
+    public void insertCliente(Endereco obj) {
 
         PreparedStatement st = null;
 
         try {
             st = conn.prepareStatement("INSERT INTO tb_endereco"
-                    + "(logradouro, rua, numero, complemento, bairro, cidade, uf, cep)"
+                    + "(rua, numero, complemento, bairro, cidade, uf, cep, id_cliente)"
                     + "VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
-            st.setString(1, obj.getLogradouro());
-            st.setString(2, obj.getRua());
-            st.setInt(3, obj.getNumero());
-            st.setString(4, obj.getComplemento());
-            st.setString(5, obj.getBairro());
-            st.setString(6, obj.getCidade());
-            st.setString(7, obj.getEstado());
-            st.setString(8, obj.getCep());
+            st.setString(1, obj.getRua());
+            st.setInt(2, obj.getNumero());
+            st.setString(3, obj.getComplemento());
+            st.setString(4, obj.getBairro());
+            st.setString(5, obj.getCidade());
+            st.setString(6, obj.getEstado());
+            st.setString(7, obj.getCep());
+            st.setInt(8, obj.getCliente().getId());
             
             int rowsAffected = st.executeUpdate();
 
@@ -67,22 +67,21 @@ public class EnderecoDaoJDBC implements EnderecoDao {
     }
 
     @Override
-    public void update(Endereco obj) {
+    public void updateCliente(Endereco obj) {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement("UPDATE tb_endereco "
-                    + "SET logradouro = ?, rua = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, uf = ?, cep = ? "
-                    + "WHERE Id = ?");
+                    + "SET rua = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, uf = ?, cep = ? "
+                    + "WHERE id_cliente = ?");
 
-            st.setString(1, obj.getLogradouro());
-            st.setString(2, obj.getRua());
-            st.setInt(3, obj.getNumero());
-            st.setString(4, obj.getComplemento());
-            st.setString(5, obj.getBairro());
-            st.setString(6, obj.getCidade());
-            st.setString(7, obj.getEstado());
-            st.setString(8, obj.getCep());
-            st.setInt(9, obj.getId());
+            st.setString(1, obj.getRua());
+            st.setInt(2, obj.getNumero());
+            st.setString(3, obj.getComplemento());
+            st.setString(4, obj.getBairro());
+            st.setString(5, obj.getCidade());
+            st.setString(6, obj.getEstado());
+            st.setString(7, obj.getCep());
+            st.setInt(8, obj.getCliente().getId());
 
             st.executeUpdate();
 
@@ -124,7 +123,7 @@ public class EnderecoDaoJDBC implements EnderecoDao {
         try {
             st = conn.prepareStatement("SELECT * "
                     + "FROM tb_endereco "
-                    + "WHERE id = ? ");
+                    + "WHERE id_cliente = ? ");
 
             st.setInt(1, id);
             rs = st.executeQuery();
@@ -171,13 +170,76 @@ public class EnderecoDaoJDBC implements EnderecoDao {
     private Endereco instanciarEndereco(ResultSet rs) throws SQLException{
         Endereco obj = new Endereco();
         obj.setId(rs.getInt("id"));
-        obj.setLogradouro(rs.getString("logradouro"));
         obj.setRua(rs.getString("rua"));
         obj.setNumero(rs.getInt("numero"));
         obj.setComplemento(rs.getString("complemento"));
         obj.setBairro(rs.getString("bairro"));
-        obj.setCidade(rs.getString("uf"));
+        obj.setCidade(rs.getString("cidade"));
+        obj.setEstado(rs.getString("uf"));
         obj.setCep(rs.getString("cep"));
         return obj;
+    }
+
+    @Override
+    public void insertFuncionario(Endereco obj) {
+       PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("INSERT INTO tb_endereco"
+                    + "(rua, numero, complemento, bairro, cidade, uf, cep, id_funcionario)"
+                    + "VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+
+            st.setString(1, obj.getRua());
+            st.setInt(2, obj.getNumero());
+            st.setString(3, obj.getComplemento());
+            st.setString(4, obj.getBairro());
+            st.setString(5, obj.getCidade());
+            st.setString(6, obj.getEstado());
+            st.setString(7, obj.getCep());
+            st.setInt(8, obj.getFuncionario().getId());
+            
+            int rowsAffected = st.executeUpdate();
+
+            if (rowsAffected > 0) {
+                ResultSet rs = st.getGeneratedKeys();
+                if (rs.next()) {
+                    int id = rs.getInt(1);
+                    obj.setId(id);
+                    Db.closeResultSet(rs);
+                } else {
+                    throw new DbException("Erro inesperado, nenhuma linha foi alterada.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DbException("Erro: " + e.getMessage());
+        } finally {
+            Db.closeStatement(st);
+        }
+    }
+
+    @Override
+    public void updateFuncionario(Endereco obj) {
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("UPDATE tb_endereco "
+                    + "SET rua = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, uf = ?, cep = ? "
+                    + "WHERE id_funcionario = ?");
+
+            st.setString(1, obj.getRua());
+            st.setInt(2, obj.getNumero());
+            st.setString(3, obj.getComplemento());
+            st.setString(4, obj.getBairro());
+            st.setString(5, obj.getCidade());
+            st.setString(6, obj.getEstado());
+            st.setString(7, obj.getCep());
+            st.setInt(8, obj.getFuncionario().getId());
+
+            st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DbException("Erro: " + e.getMessage());
+        } finally {
+            Db.closeStatement(st);
+        }
     }
 }

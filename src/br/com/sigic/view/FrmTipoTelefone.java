@@ -22,7 +22,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
     TipoTelDao tipoTelDao = DaoFactory.criarTipoTelDao();
 
     public void listar() {
-        
+
         List<TipoTel> lista = tipoTelDao.findAll();
         DefaultTableModel dados = (DefaultTableModel) tabelaTipoTelefone.getModel();
         dados.setNumRows(0);
@@ -58,7 +58,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
         txtTipoTelefone = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaTipoTelefone = new javax.swing.JTable();
-        btnRemove = new javax.swing.JButton();
+        btnAlterar = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -126,16 +126,16 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
         tabelaTipoTelefone.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabelaTipoTelefone);
 
-        btnRemove.setBackground(new java.awt.Color(0, 153, 204));
-        btnRemove.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        btnRemove.setForeground(new java.awt.Color(255, 255, 255));
-        btnRemove.setText("Remover");
-        btnRemove.setContentAreaFilled(false);
-        btnRemove.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnRemove.setOpaque(true);
-        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+        btnAlterar.setBackground(new java.awt.Color(0, 153, 204));
+        btnAlterar.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        btnAlterar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAlterar.setText("Alterar");
+        btnAlterar.setContentAreaFilled(false);
+        btnAlterar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAlterar.setOpaque(true);
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveActionPerformed(evt);
+                btnAlterarActionPerformed(evt);
             }
         });
 
@@ -164,7 +164,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 12, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -177,7 +177,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -208,19 +208,18 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
         listar();
     }//GEN-LAST:event_formWindowActivated
 
-    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        try {
-            int input = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir o registro selecionado?", "Atenção", JOptionPane.OK_CANCEL_OPTION);
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
 
-            if (input == 0) {
-                Integer id = (Integer) tabelaTipoTelefone.getModel().getValueAt(tabelaTipoTelefone.getSelectedRow(), 0);
-                tipoTelDao.deleteById(id);
-                listar();
-            }
-        } catch (RuntimeException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir: " + e);
+        if (tabelaTipoTelefone.getSelectedRowCount() == 1) {
+            TipoTel obj = new TipoTel();
+            String newTipo = JOptionPane.showInputDialog(null, "Insira o novo tipo.");
+            obj.setId((Integer) tabelaTipoTelefone.getValueAt(tabelaTipoTelefone.getSelectedRow(), 0));
+            obj.setTipo(newTipo);
+            tipoTelDao.update(obj);
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um tipo para alterar.");
         }
-    }//GEN-LAST:event_btnRemoveActionPerformed
+    }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
@@ -274,7 +273,7 @@ public class FrmTipoTelefone extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnRemove;
+    private javax.swing.JButton btnAlterar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;

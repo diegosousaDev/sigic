@@ -12,7 +12,6 @@ package br.com.sigic.model;
 public class Endereco {
     
     private Integer id;
-    private String logradouro;
     private String rua;
     private Integer numero;
     private String complemento;
@@ -20,13 +19,14 @@ public class Endereco {
     private String cidade;
     private String estado;
     private String cep;
+    private Cliente cliente;
+    private Funcionario funcionario;
 
     public Endereco() {
     }
 
-    public Endereco(Integer id, String logradouro, String rua, Integer numero, String complemento, String bairro, String cidade, String estado, String cep) {
+    public Endereco(Integer id, String rua, Integer numero, String complemento, String bairro, String cidade, String estado, String cep, Cliente cliente, Funcionario funcionario) {
         this.id = id;
-        this.logradouro = logradouro;
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
@@ -34,6 +34,8 @@ public class Endereco {
         this.cidade = cidade;
         this.estado = estado;
         this.cep = cep;
+        this.cliente = cliente;
+        this.funcionario = funcionario;
     }
 
     /**
@@ -50,20 +52,6 @@ public class Endereco {
         this.id = id;
     }
 
-    /**
-     * @return the logradouro
-     */
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    /**
-     * @param logradouro the logradouro to set
-     */
-    public void setLogradouro(String logradouro) {
-        this.logradouro = logradouro;
-    }
-    
     /**
      * @return the rua
      */
@@ -160,5 +148,33 @@ public class Endereco {
      */
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    /**
+     * @return the cliente
+     */
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    /**
+     * @param cliente the cliente to set
+     */
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    /**
+     * @return the funcionario
+     */
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    /**
+     * @param funcionario the funcionario to set
+     */
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
     }
 }

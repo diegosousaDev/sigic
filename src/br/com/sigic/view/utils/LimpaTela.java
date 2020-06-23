@@ -6,7 +6,9 @@
 package br.com.sigic.view.utils;
 
 import java.awt.Component;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -16,12 +18,13 @@ import javax.swing.JTextField;
  */
 public class LimpaTela {
 
-    public void LimpaTela(JPanel container) {
+    public static void limpaTela(JPanel container) {
         Component components[] = container.getComponents();
         for (Component component : components) {
-            if (component instanceof JTextField) {
+            if (component instanceof JTextField){
                 ((JTextField) component).setText(null);
             }
         }
+
     }
 }

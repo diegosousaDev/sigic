@@ -14,9 +14,13 @@ import java.util.List;
  */
 public interface EnderecoDao {
 
-    void insert(Endereco obj);
+    void insertCliente(Endereco obj);
+    
+    void insertFuncionario(Endereco obj);
 
-    void update(Endereco obj);
+    void updateCliente(Endereco obj);
+    
+    void updateFuncionario(Endereco obj);
 
     void deleteById(Integer id);
 
