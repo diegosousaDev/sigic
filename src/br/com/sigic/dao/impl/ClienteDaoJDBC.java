@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -197,6 +197,54 @@ public class ClienteDaoJDBC implements ClienteDao {
             Db.closeStatement(st);
         }
     }  
+    
+    @Override
+    public List<Cliente> findByName(String nome) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("SELECT tb_cliente.*, tb_statuspessoa.descricao as Status "
+                    + "FROM tb_cliente "
+                    + "INNER JOIN tb_statuspessoa "
+                    + "ON tb_cliente.id_status = tb_statuspessoa.id "
+                    + "WHERE nome "
+                    + "LIKE ?");
+
+            st.setString(1, nome);            
+            rs = st.executeQuery();
+            
+            List<Cliente> clientes = new ArrayList<>();
+            Map<Integer, StatusPessoa> map = new HashMap<>();
+            
+            while (rs.next()) {
+               
+                StatusPessoa status = map.get(rs.getInt("id_status"));
+               
+                if(status == null){
+                    status = instanciarStatusPessoa(rs);
+                    map.put(rs.getInt("id_status"), status);
+                }
+                                
+                Cliente obj = new Cliente();
+                                
+                obj.setId(rs.getInt("id"));
+                obj.setNome(rs.getString("nome"));
+                obj.setEmail(rs.getString("email"));
+                obj.setCpf(rs.getString("cpf_cnpj"));
+                obj.setNascimento(rs.getString("data_nascimento"));
+                obj.setApelido(rs.getString("apelido"));
+                obj.setObservacoes(rs.getString("observacoes"));
+                obj.setStatus(status);
+                clientes.add(obj);
+            }
+            return clientes;
+        } catch (SQLException erro) {
+            throw new DbException(erro.getMessage());
+        } finally{
+            Db.closeResultSet(rs);
+            Db.closeStatement(st);
+        }
+    }
     
     private StatusPessoa instanciarStatusPessoa(ResultSet rs) throws SQLException{
         StatusPessoa obj = new StatusPessoa();

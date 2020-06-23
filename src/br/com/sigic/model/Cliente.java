@@ -5,8 +5,6 @@
  */
 package br.com.sigic.model;
 
-import java.util.Date;
-
 /**
  *
  * @author ederc
@@ -73,4 +71,6 @@ public class Cliente extends Pessoa{
     public String toString() {
         return super.toString() + "Nível: " + nivel + ", " + "Apelido: " + apelido + ", " + "Observações: " + observacoes;
     }
+    
+    
 }

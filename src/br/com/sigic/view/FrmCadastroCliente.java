@@ -11,6 +11,7 @@ import br.com.sigic.dao.EnderecoDao;
 import br.com.sigic.dao.StatusPessoaDao;
 import br.com.sigic.dao.TelefoneDao;
 import br.com.sigic.dao.TipoTelDao;
+import br.com.sigic.db.ValidacaoException;
 import br.com.sigic.model.Cliente;
 import br.com.sigic.model.Endereco;
 import br.com.sigic.model.StatusPessoa;
@@ -107,6 +108,8 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
         painelConsultaCliente = new javax.swing.JPanel();
         scollPaneConsultaCliente = new javax.swing.JScrollPane();
         tabelaConsultaCliente = new javax.swing.JTable();
+        txtBusca = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sigic | Cadastro de Clientes");
@@ -357,11 +360,23 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
         lblNome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblNome.setText("Nome");
 
+        txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNomeKeyPressed(evt);
+            }
+        });
+
         lblEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblEmail.setText("E-mail");
 
         lblCep.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblCep.setText("CEP:");
+
+        txtRua.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtRuaKeyPressed(evt);
+            }
+        });
 
         lblEndereco.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblEndereco.setText("Endereço");
@@ -419,6 +434,22 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
                 txtCepFocusLost(evt);
             }
         });
+        txtCep.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCepKeyPressed(evt);
+            }
+        });
+
+        txtNumero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumeroActionPerformed(evt);
+            }
+        });
+        txtNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNumeroKeyPressed(evt);
+            }
+        });
 
         lblComplemento1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblComplemento1.setText("Número");
@@ -442,9 +473,19 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
                 txtCpfActionPerformed(evt);
             }
         });
+        txtCpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCpfKeyPressed(evt);
+            }
+        });
 
         comboEstado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         comboEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
+        comboEstado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboEstadoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout painelCadastraClienteLayout = new javax.swing.GroupLayout(painelCadastraCliente);
         painelCadastraCliente.setLayout(painelCadastraClienteLayout);
@@ -597,20 +638,39 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
         });
         scollPaneConsultaCliente.setViewportView(tabelaConsultaCliente);
 
+        txtBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBuscaKeyPressed(evt);
+            }
+        });
+
+        jLabel1.setBackground(new java.awt.Color(0, 153, 204));
+        jLabel1.setText("Digite para Pesquisar");
+
         javax.swing.GroupLayout painelConsultaClienteLayout = new javax.swing.GroupLayout(painelConsultaCliente);
         painelConsultaCliente.setLayout(painelConsultaClienteLayout);
         painelConsultaClienteLayout.setHorizontalGroup(
             painelConsultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelConsultaClienteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scollPaneConsultaCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
+                .addGroup(painelConsultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scollPaneConsultaCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
+                    .addGroup(painelConsultaClienteLayout.createSequentialGroup()
+                        .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         painelConsultaClienteLayout.setVerticalGroup(
             painelConsultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelConsultaClienteLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scollPaneConsultaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(painelConsultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scollPaneConsultaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -651,9 +711,8 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        if (cadastrarCliente()) {
-            limpatela();
-            JOptionPane.showMessageDialog(null, "Registro incluído com sucesso.");
+        if (validarCampos()) {
+            cadastrarCliente();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -726,6 +785,39 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
         formataCel(comboTipoTel2, txtTel2);
     }//GEN-LAST:event_comboTipoTel2ActionPerformed
 
+    private void txtCpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCpfKeyPressed
+        txtCpf.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_txtCpfKeyPressed
+
+    private void txtNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyPressed
+        txtNome.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_txtNomeKeyPressed
+
+    private void txtCepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCepKeyPressed
+        txtCep.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_txtCepKeyPressed
+
+    private void txtRuaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRuaKeyPressed
+        txtRua.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_txtRuaKeyPressed
+
+    private void txtNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumeroActionPerformed
+
+    private void txtNumeroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroKeyPressed
+        txtNumero.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_txtNumeroKeyPressed
+
+    private void comboEstadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboEstadoMouseClicked
+        comboEstado.setBackground(new java.awt.Color(255, 255, 255));
+    }//GEN-LAST:event_comboEstadoMouseClicked
+
+    private void txtBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyPressed
+        String nome = "%" + txtBusca.getText() + "%";
+        pesquisarPorNome(nome);
+    }//GEN-LAST:event_txtBuscaKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -775,6 +867,7 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
     private javax.swing.JComboBox<TipoTel> comboTipoTel;
     private javax.swing.JComboBox<TipoTel> comboTipoTel1;
     private javax.swing.JComboBox<TipoTel> comboTipoTel2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblApelido;
     private javax.swing.JLabel lblBairro;
     private javax.swing.JLabel lblCep;
@@ -800,6 +893,7 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
     private javax.swing.JTable tabelaConsultaCliente;
     private javax.swing.JTextField txtApelido;
     private javax.swing.JTextField txtBairro;
+    private javax.swing.JTextField txtBusca;
     private javax.swing.JFormattedTextField txtCep;
     private javax.swing.JTextField txtCidade;
     private javax.swing.JTextField txtCodigo;
@@ -819,7 +913,9 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtTel2;
     // End of variables declaration//GEN-END:variables
 
-    private boolean cadastrarCliente() {
+    private void cadastrarCliente() {
+
+        List<Cliente> clientes = clienteDao.findAll();
 
         try {
 
@@ -832,14 +928,19 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
             obj.setObservacoes(txtObservavacoes.getText());
             obj.setStatus(new StatusPessoa(comboStatusPessoa.getItemAt(comboStatusPessoa.getSelectedIndex()).getId(), null));
 
+            for (Cliente cliente : clientes) {
+                if (cliente.getCpf().equals(txtCpf.getText())) {
+                    throw new ValidacaoException("CPF já cadastrado");
+                }
+            }
             clienteDao.insert(obj);
             cadastrarTelefones();
             cadastrarEndereco();
-            return true;
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao inserir dados." + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Registro incluído com sucesso.");
+            limpatela();
+        } catch (NullPointerException | ValidacaoException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao inserir dados. " + e.getMessage());
         }
-        return false;
     }
 
     private void cadastrarEndereco() {
@@ -919,7 +1020,6 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
             alterarEndereco();
             alterarTelefone();
             return true;
-
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Erro ao inserir dados." + e.getMessage());
         }
@@ -987,6 +1087,26 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
         });
     }
 
+    private void pesquisarPorNome(String nome) {
+
+        List<Cliente> clientes = clienteDao.findByName(nome);
+        DefaultTableModel dados = (DefaultTableModel) tabelaConsultaCliente.getModel();
+        dados.setNumRows(0);
+
+        clientes.stream().forEach((c) -> {
+            dados.addRow(new Object[]{
+                c.getId(),
+                c.getNome(),
+                c.getEmail(),
+                c.getCpf(),
+                c.getNascimento(),
+                c.getApelido(),
+                c.getObservacoes(),
+                c.getStatus()
+            });
+        });
+    }
+
     private void listarEndereco(int id) {
 
         Endereco end = enderecoDao.findById(id);
@@ -996,7 +1116,6 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
         txtBairro.setText(end.getBairro());
         txtCidade.setText(end.getCidade());
         comboEstado.setSelectedItem(end.getEstado());
-        System.out.println(end.getEstado());
         txtCep.setText(end.getCep());
 
     }
@@ -1035,7 +1154,7 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
     private void iniciarCampoCpf() {
         try {
             if (comboCpfCnpj.getSelectedIndex() == 1) {
-                txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/###-##")));
+                txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
             } else {
                 txtCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
             }
@@ -1078,62 +1197,41 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
         statusPessoaDao.mostraStatus(comboStatusPessoa);
     }
 
+    private boolean validarCampos() {
+        try {
+            if (txtCpf.getText().trim().length() < 14) {
+                txtCpf.setBackground(new java.awt.Color(204, 0, 0));
+                throw new ValidacaoException("Campo CPF não pode ser vazio.");
+            }
+            if (txtNome.getText().trim().length() == 0) {
+                txtNome.setBackground(new java.awt.Color(204, 0, 0));
+                throw new ValidacaoException("Campo Nome não pode ser vazio.");
+            }
+            if (txtCep.getText().trim().length() < 10) {
+                txtCep.setBackground(new java.awt.Color(204, 0, 0));
+                throw new ValidacaoException("Campo CEP não pode ser vazio.");
+            }
+            if (txtRua.getText().trim().length() == 0) {
+                txtRua.setBackground(new java.awt.Color(204, 0, 0));
+                throw new ValidacaoException("Campo Rua não pode ser vazio.");
+            }
+            if (txtCidade.getText().trim().length() == 0) {
+                txtCidade.setBackground(new java.awt.Color(204, 0, 0));
+                throw new ValidacaoException("Campo Cidade não pode ser vazio.");
+            }
+            if (txtNumero.getText().trim().length() == 0) {
+                txtNumero.setBackground(new java.awt.Color(204, 0, 0));
+                throw new ValidacaoException("Campo Numero não pode ser vazio.");
+            }
+            if (comboEstado.getSelectedItem().equals("Selecione")) {
+                comboEstado.setBackground(new java.awt.Color(204, 0, 0));
+                throw new ValidacaoException("Selecione o Estado.");
+            }
+            return true;
+        } catch (ValidacaoException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return false;
+    }
+
 }
-
-//        // Botão pesquisar 2
-//        String nome = "%" + txtPesquisa.getText() + "%";
-//
-//        FuncionariosDAO dao = new FuncionariosDAO();
-//        List<Funcionarios> lista = dao.buscaFuncionariosPorNome(nome);
-//        DefaultTableModel dados = (DefaultTableModel) tabelaFuncionarios.getModel();
-//        dados.setNumRows(0);
-//
-//        for (Funcionarios c : lista) {
-//            dados.addRow(new Object[]{
-//                c.getId(),
-//                c.getNome(),
-//                c.getRg(),
-//                c.getCpf(),
-//                c.getEmail(),
-//                c.getSenha(),
-//                c.getCargo(),
-//                c.getNivel_acesso(),
-//                c.getTelefone(),
-//                c.getCelular(),
-//                c.getCep(),
-//                c.getEndereco(),
-//                c.getNumero(),
-//                c.getComplemento(),
-//                c.getBairro(),
-//                c.getCidade(),
-//                c.getEstado()
-//            });
-//        }
-//        String nome = "%" + txtPesquisa.getText() + "%";
-//
-//        String nome = txtNome.getText();
-//        Funcionarios obj = new Funcionarios();
-//        FuncionariosDAO dao = new FuncionariosDAO();
-//
-//        obj = dao.consultaPorNome(nome);
-//
-//        if (obj.getNome() != null) {
-//
-//            txtCod.setText(String.valueOf(obj.getId()));
-//            txtNome.setText(obj.getNome());
-//            txtRg.setText(obj.getRg());
-//            txtCpf.setText(obj.getCpf());
-//            txtMail.setText(obj.getEmail());
-//            txtFixo.setText(obj.getTelefone());
-//            txtCel.setText(obj.getCelular());
-//            txtCep.setText(obj.getCep());
-//            txtEnd.setText(obj.getEndereco());
-//            txtNum.setText(String.valueOf(obj.getNumero()));
-//            txtComplem.setText(obj.getComplemento());
-//            txtBairro.setText(obj.getBairro());
-//            txtCidade.setText(obj.getCidade());
-//            comboUf.setSelectedItem(obj.getEstado());
-//        } else {
-//            JOptionPane.showMessageDialog(null, "Cliente não localizado.");
-//        }
-
