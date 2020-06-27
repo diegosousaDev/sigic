@@ -580,15 +580,13 @@ public class FrmCadastroFuncionario extends javax.swing.JFrame {
                                                 .addComponent(lblCarteira)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtCarteira, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(6, 6, 6)
                                         .addGroup(painelCadastraFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(painelCadastraFuncionarioLayout.createSequentialGroup()
-                                                .addGap(18, 18, 18)
-                                                .addComponent(lblEstado))
-                                            .addGroup(painelCadastraFuncionarioLayout.createSequentialGroup()
-                                                .addGap(6, 6, 6)
                                                 .addComponent(lblDataSaida)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtDataSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                .addComponent(txtDataSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(lblEstado))))
                                 .addGap(6, 6, 6)))))
                 .addContainerGap())
         );
@@ -657,11 +655,11 @@ public class FrmCadastroFuncionario extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Nome", "E-mail", "CPF / CNPJ", "Data Nascimento", "Apelido", "Observações", "Status"
+                "Id", "Nome", "E-mail", "CPF / CNPJ", "Data Nascimento", "Admissão", "Saida", "Função", "Carteira", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1012,7 +1010,7 @@ public class FrmCadastroFuncionario extends javax.swing.JFrame {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Erro ao inserir endereco." + e.getMessage());
             e.printStackTrace();
         }
@@ -1161,7 +1159,7 @@ public class FrmCadastroFuncionario extends javax.swing.JFrame {
 
     private void listarEndereco(int id) {
 
-        Endereco end = enderecoDao.findById(id);
+        Endereco end = enderecoDao.findByIdFuncionario(id);
         txtRua.setText(end.getRua());
         txtNumero.setText(end.getNumero().toString());
         txtComplemento.setText(end.getComplemento());
@@ -1174,7 +1172,7 @@ public class FrmCadastroFuncionario extends javax.swing.JFrame {
 
     private void listarTelefones(int id) {
 
-        Telefone tel = telefoneDao.findById(id);
+        Telefone tel = telefoneDao.findByIdFuncionario(id);
         comboTipoTel.setSelectedItem(tel.getTipo());
         txtDdd.setText(tel.getDdd());
         txtTel.setText(tel.getNumero());
@@ -1196,8 +1194,8 @@ public class FrmCadastroFuncionario extends javax.swing.JFrame {
         txtEmail.setText(tabelaConsultaFuncionario.getValueAt(tabelaConsultaFuncionario.getSelectedRow(), 2).toString());
         txtCpf.setText(tabelaConsultaFuncionario.getValueAt(tabelaConsultaFuncionario.getSelectedRow(), 3).toString());
         txtDataNasc.setText(tabelaConsultaFuncionario.getValueAt(tabelaConsultaFuncionario.getSelectedRow(), 4).toString().replaceAll("\\-", ""));
-        txtDataAdm.setText(tabelaConsultaFuncionario.getValueAt(tabelaConsultaFuncionario.getSelectedRow(), 5).toString());
-        txtDataSaida.setText(tabelaConsultaFuncionario.getValueAt(tabelaConsultaFuncionario.getSelectedRow(), 6).toString());
+        txtDataAdm.setText(tabelaConsultaFuncionario.getValueAt(tabelaConsultaFuncionario.getSelectedRow(), 5).toString().replaceAll("\\-", ""));
+        txtDataSaida.setText(tabelaConsultaFuncionario.getValueAt(tabelaConsultaFuncionario.getSelectedRow(), 6).toString().replaceAll("\\-", ""));
         txtFuncao.setText(tabelaConsultaFuncionario.getValueAt(tabelaConsultaFuncionario.getSelectedRow(), 7).toString());
         txtCarteira.setText(tabelaConsultaFuncionario.getValueAt(tabelaConsultaFuncionario.getSelectedRow(), 8).toString());
         listarTelefones((Integer) tabelaConsultaFuncionario.getValueAt(tabelaConsultaFuncionario.getSelectedRow(), 0));

@@ -23,6 +23,8 @@ public interface TelefoneDao {
     void updateFuncionario(Telefone obj);
     
     Telefone findById(Integer id);
+    
+    Telefone findByIdFuncionario(Integer id);
 
     List<Telefone> findAll();
 

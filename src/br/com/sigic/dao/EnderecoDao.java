@@ -25,6 +25,8 @@ public interface EnderecoDao {
     void deleteById(Integer id);
 
     Endereco findById(Integer id);
+    
+    Endereco findByIdFuncionario(Integer id);
 
     List<Endereco> findAll();
 

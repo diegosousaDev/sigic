@@ -68,7 +68,6 @@ public class TelefoneDaoJDBC implements TelefoneDao {
             Db.closeStatement(st);
         }
     }
-
     @Override
     public void updateCliente(Telefone obj) {
         PreparedStatement st = null;
@@ -130,6 +129,42 @@ public class TelefoneDaoJDBC implements TelefoneDao {
             Db.closeResultSet(rs);
         }
     }
+    
+    @Override
+    public Telefone findByIdFuncionario(Integer id) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("SELECT * "
+                    + "FROM tb_telefone "
+                    + "WHERE id_funcionario = ? ");
+
+            st.setInt(1, id);
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                Telefone obj = new Telefone();
+                obj.setId(rs.getInt("id"));
+                obj.setTipo(rs.getString("tipo_telefone"));
+                obj.setDdd(rs.getString("ddd"));
+                obj.setNumero(rs.getString("numero"));
+                obj.setTipo1(rs.getString("tipo_telefone1"));
+                obj.setDdd1(rs.getString("ddd1"));
+                obj.setNumero1(rs.getString("numero1"));
+                obj.setTipo2(rs.getString("tipo_telefone2"));
+                obj.setDdd2(rs.getString("ddd2"));
+                obj.setNumero2(rs.getString("numero2"));
+                return obj;
+            }
+            return null;
+        } catch (SQLException erro) {
+            throw new DbException(erro.getMessage());
+        } finally {
+            Db.closeStatement(st);
+            Db.closeResultSet(rs);
+        }
+    }
+    
 
     @Override
     public List<Telefone> findAll() {
@@ -216,7 +251,7 @@ public class TelefoneDaoJDBC implements TelefoneDao {
             st.setString(7, obj.getTipo2());
             st.setString(8, obj.getDdd2());
             st.setString(9, obj.getNumero2());
-            st.setInt(10, obj.getCliente().getId());
+            st.setInt(10, obj.getFuncionario().getId());
             
             st.executeUpdate();
 

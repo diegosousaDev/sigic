@@ -140,6 +140,31 @@ public class EnderecoDaoJDBC implements EnderecoDao {
             Db.closeResultSet(rs);
         }
     }
+    
+    @Override
+    public Endereco findByIdFuncionario(Integer id) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("SELECT * "
+                    + "FROM tb_endereco "
+                    + "WHERE id_funcionario = ? ");
+
+            st.setInt(1, id);
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                Endereco obj = instanciarEndereco(rs);
+                return obj;
+            }
+            return null;
+        } catch (SQLException erro) {
+            throw new DbException(erro.getMessage());
+        } finally {
+            Db.closeStatement(st);
+            Db.closeResultSet(rs);
+        }
+    }
 
     @Override
     public List<Endereco> findAll() {

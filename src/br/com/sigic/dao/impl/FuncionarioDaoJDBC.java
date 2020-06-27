@@ -42,7 +42,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
             st = conn.prepareStatement("INSERT INTO tb_funcionario "
                     + "(nome, email, cpf_cnpj, data_nascimento, data_admissao, data_saida, funcao, carteira, id_status) "
                     + "VALUES "
-                    + "(?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                    + "(?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
@@ -88,8 +88,8 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
             st.setString(6, obj.getData_saida());
             st.setString(7, obj.getFuncao());
             st.setString(8, obj.getCarteira());
-            st.setInt(7, obj.getStatus().getId());
-            st.setInt(8, obj.getId());
+            st.setInt(9, obj.getStatus().getId());
+            st.setInt(10, obj.getId());
 
             st.executeUpdate();
 
@@ -144,6 +144,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
                 obj.setNascimento(rs.getString("data_nascimento"));
                 obj.setData_admissao(rs.getString("data_admissao"));
                 obj.setData_saida(rs.getString("data_saida"));
+                obj.setFuncao(rs.getString("funcao"));
                 obj.setCarteira(rs.getString("carteira"));
                                 
                 return obj;
@@ -191,6 +192,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
                 obj.setNascimento(rs.getString("data_nascimento"));
                 obj.setData_admissao(rs.getString("data_admissao"));
                 obj.setData_saida(rs.getString("data_saida"));
+                obj.setFuncao(rs.getString("funcao"));
                 obj.setCarteira(rs.getString("carteira"));
                 obj.setStatus(status);
                 funcionarios.add(obj);
@@ -240,6 +242,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
                 obj.setNascimento(rs.getString("data_nascimento"));
                 obj.setData_admissao(rs.getString("data_admissao"));
                 obj.setData_saida(rs.getString("data_saida"));
+                obj.setFuncao(rs.getString("funcao"));
                 obj.setCarteira(rs.getString("carteira"));
                 obj.setStatus(status);
                 funcionarios.add(obj);
