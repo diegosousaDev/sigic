@@ -5,7 +5,6 @@
  */
 package br.com.sigic.model;
 
-import java.util.Date;
 
 /**
  *

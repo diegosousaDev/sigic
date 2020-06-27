@@ -199,4 +199,31 @@ public class TelefoneDaoJDBC implements TelefoneDao {
             Db.closeStatement(st);
         }
     }
+
+    @Override
+    public void updateFuncionario(Telefone obj) {
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("UPDATE tb_telefone SET tipo_telefone = ?, ddd = ?, numero = ?, tipo_telefone1 = ?, ddd1 = ?, numero1 = ?, tipo_telefone2 = ?, ddd2 = ?, numero2 = ? "
+                    + "WHERE id_funcionario = ?");
+
+            st.setString(1, obj.getTipo());
+            st.setString(2, obj.getDdd());
+            st.setString(3, obj.getNumero());
+            st.setString(4, obj.getTipo1());
+            st.setString(5, obj.getDdd1());
+            st.setString(6, obj.getNumero1());
+            st.setString(7, obj.getTipo2());
+            st.setString(8, obj.getDdd2());
+            st.setString(9, obj.getNumero2());
+            st.setInt(10, obj.getCliente().getId());
+            
+            st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DbException("Erro: " + e.getMessage());
+        } finally {
+            Db.closeStatement(st);
+        }
+    }
 }

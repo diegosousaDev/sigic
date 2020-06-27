@@ -20,6 +20,8 @@ public interface TelefoneDao {
 
     void updateCliente(Telefone obj);
     
+    void updateFuncionario(Telefone obj);
+    
     Telefone findById(Integer id);
 
     List<Telefone> findAll();
